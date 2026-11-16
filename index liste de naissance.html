@@ -1,0 +1,622 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Liste de naissance — Stevie et Manon</title>
+<meta name="description" content="On accueille dans quelques mois notre premier bébé ! Voici les petites choses qui nous aideront à bien l’accueillir.">
+<meta property="og:title" content="Liste de naissance — Stevie et Manon">
+<meta property="og:description" content="Futur(e)s tata, tonton, mamie, papi… voici les envies pour accueillir notre petit explorateur.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 84'%3E%3Cpath d='M30 4C14 4 4 16 4 30c0 14 14 22 20 30h12c6-8 20-16 20-30C56 16 46 4 30 4z' fill='%23A9B5A0'/%3E%3Cpath d='M30 4c-6 0-10 12-10 26 0 14 6 22 8 30h4c2-8 8-16 8-30C40 16 36 4 30 4z' fill='%23F3EBDD'/%3E%3Crect x='23' y='70' width='14' height='10' rx='2' fill='%23B98B5E'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Outfit:wght@300;400;500;600&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:#EFE8DC;color:#2F2D2A;font-family:Outfit,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#4E5B48}a:hover{color:#2F3A2B}
+button{cursor:pointer;font-family:inherit}
+button:disabled{cursor:not-allowed;opacity:.55}
+.page{padding:24px}
+.conteneur{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:32px}
+.manuscrit{font-family:Caveat,cursive;color:#8A6A45}
+h1,h2,.fredoka{font-family:Fredoka,sans-serif;font-weight:600;color:#3E4A39}
+
+/* ---------- Bandeau du haut ---------- */
+.hero{border-radius:36px;overflow:hidden;position:relative;display:flex;flex-direction:column;background-color:#F8F2E7;background-image:repeating-linear-gradient(90deg,#F8F2E7 0 22px,#F1E8D8 22px 44px)}
+.deco{position:absolute;pointer-events:none}
+.hero-contenu{padding:56px 48px 44px;display:flex;flex-direction:column;align-items:center;gap:40px;position:relative}
+.hero-texte{max-width:780px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px}
+.hero-texte .surtitre{margin:0;font-size:28px}
+.hero-texte h1{margin:0;font-size:clamp(32px,5.4vw,46px);line-height:1.12}
+.hero-texte .intro{margin:0;font-size:17px;line-height:1.65;color:#5C574F;max-width:560px}
+.hero-texte .surprise{margin:4px 0 0;display:flex;align-items:center;gap:8px;font-family:Caveat,cursive;font-size:24px;color:#5E6B57}
+.echo-bloc{position:relative;padding:0 0 30px 30px}
+.echo-cadre{margin:0;background:#D2AE84;padding:12px;border-radius:6px;box-shadow:0 12px 28px rgba(110,84,52,.22);transform:rotate(2deg)}
+.echo-passe{background:#FBF7EF;padding:16px}
+.echo-photo{display:block;width:min(300px,62vw);height:min(225px,46.5vw);object-fit:cover;border-radius:2px}
+.echo-vide{width:min(300px,62vw);height:min(225px,46.5vw);border:2px dashed #B8C2B0;border-radius:4px;background:#F1EDE4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:16px}
+.echo-vide strong{font-family:Fredoka,sans-serif;font-weight:500;font-size:18px;color:#4E5B48}
+.echo-vide span{font-size:13px;color:#66605A}
+.echo-legende{margin-top:10px;text-align:center;font-family:Caveat,cursive;font-size:22px;color:#6B5A45}
+.pastille{position:absolute;left:0;bottom:0;width:118px;height:118px;border-radius:50%;background:#A9B5A0;border:4px solid #FBF7EF;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transform:rotate(-8deg);box-shadow:0 6px 16px rgba(62,74,57,.2);color:#2F3A2B}
+.pastille small{font-size:12px}
+.pastille strong{font-family:Fredoka,sans-serif;font-size:22px;font-weight:600}
+.pastille span{font-size:13px}
+.baguette{height:12px;background:#D2AE84}
+.soubassement{background:#A9B5A0;padding:14px 24px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.soubassement div{height:46px;border:2px solid #97A48E;border-radius:6px}
+@keyframes flotte{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes flotte2{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-8px) rotate(3deg)}}
+.flotte{animation:flotte 7s ease-in-out infinite}
+.flotte2{animation:flotte2 9s ease-in-out infinite}
+
+/* ---------- Barre ---------- */
+.barre{display:flex;flex-direction:column;align-items:center;gap:12px}
+.onglets{display:flex;gap:4px;padding:5px;background:#E2E8DC;border-radius:999px}
+.onglet{font:500 15px/1 Outfit,sans-serif;padding:0 22px;min-height:46px;border:0;border-radius:999px;background:transparent;color:#3F4A3A}
+.onglet.on{background:#FBF7EF;color:#2F3A2B;box-shadow:0 1px 3px rgba(47,58,43,.15)}
+.compteur{margin:0;display:flex;align-items:center;gap:10px;font-size:15px;color:#5C574F}
+.compteur b{font-family:Fredoka,sans-serif;font-weight:600;font-size:20px;color:#3E4A39}
+.point{width:6px;height:6px;border-radius:50%;background:#D2AE84}
+
+/* ---------- Formulaires ---------- */
+.carte-blanche{background:#FBF7EF;border-radius:28px;padding:28px;display:flex;flex-direction:column;gap:16px;position:relative;overflow:hidden}
+.carte-blanche h2{margin:0;font-size:26px}
+.grille-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;align-items:end}
+.large{grid-column:span 2}
+.plein{grid-column:1/-1}
+@media (max-width:640px){.large{grid-column:1/-1}}
+.fld{display:flex;flex-direction:column;gap:6px;font:500 13px/1.2 Outfit,sans-serif;color:#4A4640}
+.fld input,.fld select,.fld textarea{font:400 16px/1.4 Outfit,sans-serif;color:#2F2D2A;background:#FFFFFF;border:1px solid #D9D0C2;border-radius:14px;padding:11px 14px;min-height:46px;width:100%}
+.fld input:focus,.fld select:focus,.fld textarea:focus,button:focus-visible,a:focus-visible{outline:2px solid #5E6B57;outline-offset:2px}
+.btn{font:500 15px/1 Outfit,sans-serif;min-height:46px;padding:0 24px;border:0;border-radius:999px;background:#5E6B57;color:#FFFFFF}
+.btn:hover:not(:disabled){background:#4E5B48}
+.btn-clair{background:#FFFFFF;color:#3F4A3A;border:1px solid #D9D0C2}
+.btn-clair:hover:not(:disabled){background:#F4F1EA}
+.btn-texte{font:500 13px/1 Outfit,sans-serif;min-height:44px;padding:0 10px;border:0;background:transparent;color:#4E5B48;text-decoration:underline;text-underline-offset:3px}
+.msg{margin:0;font-size:14px;color:#4E5B48;min-height:1.2em}
+.msg.err{color:#9A3B2E}
+
+/* ---------- Envies ---------- */
+.envies-tete{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+.envies-tete h2{margin:0;font-size:36px}
+.cadres{display:flex;gap:14px;align-items:flex-start}
+.cadre{background:#D2AE84;padding:5px;border-radius:3px;box-shadow:0 4px 10px rgba(110,84,52,.18)}
+.cadre>div{background:#FBF7EF;padding:8px;display:flex}
+.filtres{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font:500 14px/1 Outfit,sans-serif;padding:0 16px;min-height:40px;border:0;border-radius:999px;background:#E2E8DC;color:#3F4A3A}
+.chip.on{background:#5E6B57;color:#FFFFFF}
+.liste{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+.carte{border-radius:28px;padding:22px;display:flex;flex-direction:column;gap:14px;transition:transform .25s ease,box-shadow .25s ease}
+.carte:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(94,107,87,.14)}
+.carte.t1{background:#E6ECE1}.carte.t2{background:#F5E9D7}.carte.t3{background:#FBF7EF}
+.carte-haut{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.cat{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;color:#4A4640}
+.ico{width:48px;height:48px;border-radius:50%;background:#FFFFFF;color:#5E6B57;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.carte.is-res .ico{opacity:.55}
+.badge{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;padding:6px 12px;border-radius:999px;background:#5E6B57;color:#FFFFFF}
+.carte-corps{display:flex;flex-direction:column;gap:6px;flex:1}
+.nom{font-family:Fredoka,sans-serif;font-size:22px;font-weight:500;line-height:1.2;overflow-wrap:anywhere}
+.note{font-size:14px;line-height:1.5;color:#5C574F;overflow-wrap:anywhere}
+.carte-corps a{font-size:14px}
+.carte-bas{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.prix{font-family:Fredoka,sans-serif;font-size:20px;font-weight:600;color:#3E4A39}
+.rond{width:46px;height:46px;border:0;border-radius:50%;background:#FFFFFF;color:#4A4640;display:flex;align-items:center;justify-content:center}
+.vide{padding:40px;text-align:center;background:#FBF7EF;border-radius:28px;color:#5C574F;display:flex;flex-direction:column;align-items:center;gap:10px}
+.vide p{margin:0}
+
+/* ---------- Adresse ---------- */
+.sauge{background:#56634F;color:#FBF7EF;border-radius:36px;padding:14px}
+.sauge-int{border:2px solid #6C7965;border-radius:26px;padding:34px 36px;display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start}
+.sauge h2{margin:0;font-size:30px;color:#FBF7EF}
+.sauge p{margin:0;font-size:15px;line-height:1.6;color:#E4EADF}
+.sauge .fld{color:#EEF2EA}
+.sauge address{font-style:normal;font-size:18px;line-height:1.6}
+.ligne-adresse{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.btn-creme{font:500 15px/1 Outfit,sans-serif;min-height:48px;padding:0 26px;border:0;border-radius:999px;background:#FBF7EF;color:#2F3A2B}
+.btn-contour{font:500 14px/1 Outfit,sans-serif;min-height:46px;padding:0 22px;border:1px solid #A9B5A0;border-radius:999px;background:transparent;color:#FBF7EF}
+.sauge .msg{color:#E4EADF}
+
+/* ---------- Pied de page, connexion, messages ---------- */
+footer{display:flex;flex-direction:column;align-items:center;gap:14px;padding:8px 0 24px}
+.pompons{display:flex;gap:10px}.pompons span{width:12px;height:12px;border-radius:50%}
+.merci{margin:0;font-family:Caveat,cursive;font-size:26px;color:#5C574F;text-align:center}
+.lien-discret{font:400 13px/1 Outfit,sans-serif;min-height:44px;padding:0 12px;border:0;background:transparent;color:#66605A;text-decoration:underline;text-underline-offset:3px}
+dialog{border:0;border-radius:28px;padding:0;background:#FBF7EF;color:#2F2D2A;width:min(420px,calc(100vw - 32px));box-shadow:0 20px 50px rgba(47,45,42,.25)}
+dialog::backdrop{background:rgba(47,45,42,.45)}
+.dialog-int{padding:28px;display:flex;flex-direction:column;gap:14px}
+.dialog-int h2{margin:0;font-size:24px}
+.dialog-actions{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);max-width:calc(100vw - 32px);background:#2F3A2B;color:#FBF7EF;padding:14px 20px;border-radius:16px;font-size:15px;box-shadow:0 10px 30px rgba(0,0,0,.2);z-index:10}
+.bandeau-config{background:#F5E9D7;border:2px dashed #D2AE84;border-radius:20px;padding:18px 22px;font-size:15px;line-height:1.5;color:#5C4A33}
+@media (max-width:640px){
+  .page{padding:12px}
+  .hero-contenu{padding:40px 20px 32px}
+  .carte-blanche{padding:22px}
+  .sauge-int{padding:24px 20px}
+  .cadres{display:none}
+  .deco{display:none}
+}
+@media (prefers-reduced-motion:reduce){.flotte,.flotte2{animation:none}.carte{transition:none}}
+</style>
+</head>
+<body>
+<div class="page">
+<div class="conteneur">
+
+<div id="bandeau-config" class="bandeau-config" hidden>
+<strong>Le site n’est pas encore relié à sa base de données.</strong> Collez l’adresse du projet Supabase et sa clé publique en haut du script de ce fichier (voir le guide, étape 3). En attendant, rien ne peut être enregistré.
+</div>
+
+<!-- ============ Bandeau du haut ============ -->
+<header class="hero">
+<div class="deco flotte" aria-hidden="true" style="top:60px;left:8%">
+<svg width="64" height="90" viewBox="0 0 60 84"><path d="M30 4C14 4 4 16 4 30c0 14 14 22 20 30h12c6-8 20-16 20-30C56 16 46 4 30 4z" fill="#A9B5A0"/><path d="M30 4c-6 0-10 12-10 26 0 14 6 22 8 30h4c2-8 8-16 8-30C40 16 36 4 30 4z" fill="#F3EBDD"/><path d="M24 60l1.5 10M36 60l-1.5 10" stroke="#8C6B4A" stroke-width="1.5"/><rect x="23" y="70" width="14" height="10" rx="2" fill="#B98B5E"/></svg>
+</div>
+<div class="deco flotte2" aria-hidden="true" style="top:150px;right:10%">
+<svg width="34" height="48" viewBox="0 0 60 84"><path d="M30 4C14 4 4 16 4 30c0 14 14 22 20 30h12c6-8 20-16 20-30C56 16 46 4 30 4z" fill="#E3C59A"/><path d="M30 4c-6 0-10 12-10 26 0 14 6 22 8 30h4c2-8 8-16 8-30C40 16 36 4 30 4z" fill="#FBF7EF"/><path d="M24 60l1.5 10M36 60l-1.5 10" stroke="#8C6B4A" stroke-width="2"/><rect x="23" y="70" width="14" height="10" rx="2" fill="#B98B5E"/></svg>
+</div>
+<svg class="deco" aria-hidden="true" width="120" height="44" viewBox="0 0 120 44" style="top:34px;right:6%"><path d="M20 38h80a14 14 0 0 0 0-28 20 20 0 0 0-38-4 16 16 0 0 0-26 10A12 12 0 0 0 20 38z" fill="#FFFFFF" opacity=".85"/></svg>
+<svg class="deco" aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" style="top:30px;left:36px"><path d="M12 2l2.6 6.6L21 9.5l-5 4.4L17.5 21 12 17.3 6.5 21 8 13.9 3 9.5l6.4-.9z" fill="#E2C08D"/></svg>
+<svg class="deco" aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" style="top:240px;left:14%"><path d="M12 2l2.6 6.6L21 9.5l-5 4.4L17.5 21 12 17.3 6.5 21 8 13.9 3 9.5l6.4-.9z" fill="#C9D3C2"/></svg>
+<svg class="deco" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" style="top:70px;right:40px"><path d="M12 2l2.6 6.6L21 9.5l-5 4.4L17.5 21 12 17.3 6.5 21 8 13.9 3 9.5l6.4-.9z" fill="#E2C08D"/></svg>
+
+<div class="hero-contenu">
+<div class="hero-texte">
+<p class="surtitre manuscrit">Liste de naissance</p>
+<h1>Futur(e)s tata, tonton, mamie, papi, grand-oncle, grande-tante…</h1>
+<p class="intro">On accueille dans quelques mois notre premier bébé ! On a hâte que vous fassiez sa rencontre. En attendant, voici les petites choses qui nous aideront à bien l’accueillir.</p>
+<p class="surprise"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/><circle cx="12" cy="12" r="3.5"/></svg>Son prénom ? Surprise jusqu’au jour J…</p>
+</div>
+
+<div class="echo-bloc">
+<figure class="echo-cadre">
+<div class="echo-passe">
+<!-- Déposez votre photo dans le dossier du site sous le nom « echographie.jpg » : elle s'affichera ici. -->
+<img class="echo-photo" src="echographie.jpg" alt="Échographie de bébé" onerror="this.hidden=true;document.getElementById('echo-vide').hidden=false">
+<div id="echo-vide" class="echo-vide" hidden>
+<svg aria-hidden="true" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#7D8A76" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg>
+<strong>Votre échographie ici</strong>
+<span>Format paysage conseillé</span>
+</div>
+<figcaption class="echo-legende">Notre toute première photo</figcaption>
+</div>
+</figure>
+<div class="pastille"><small>Arrivée prévue</small><strong>[mois]</strong><span>[année]</span></div>
+</div>
+</div>
+
+<div class="baguette" aria-hidden="true"></div>
+<div class="soubassement" aria-hidden="true"><div></div><div></div><div></div><div></div></div>
+</header>
+
+<!-- ============ Barre : onglets (maman) + compteur ============ -->
+<div class="barre">
+<nav id="onglets" class="onglets" aria-label="Mode d’affichage" hidden>
+<button type="button" class="onglet on" data-vue="maman">Je gère ma liste</button>
+<button type="button" class="onglet" data-vue="invite">Aperçu invités</button>
+</nav>
+<p class="compteur" aria-live="polite"><b id="nb-total">0</b> envies <span class="point" aria-hidden="true"></span> <b id="nb-offertes">0</b> déjà offerte(s)</p>
+</div>
+
+<!-- ============ Ajout (maman) ============ -->
+<section id="bloc-ajout" class="carte-blanche" hidden>
+<svg aria-hidden="true" width="90" height="90" viewBox="0 0 60 64" style="position:absolute;right:22px;top:14px;opacity:.9"><ellipse cx="30" cy="54" rx="16" ry="10" fill="#E3C59A"/><circle cx="16" cy="14" r="8" fill="#E3C59A"/><circle cx="44" cy="14" r="8" fill="#E3C59A"/><circle cx="16" cy="14" r="4" fill="#F1E0C6"/><circle cx="44" cy="14" r="4" fill="#F1E0C6"/><circle cx="30" cy="28" r="18" fill="#E3C59A"/><ellipse cx="30" cy="34" rx="8" ry="6" fill="#F6EAD6"/><ellipse cx="30" cy="31" rx="3" ry="2" fill="#5A4330"/><circle cx="23" cy="25" r="2" fill="#3B342D"/><circle cx="37" cy="25" r="2" fill="#3B342D"/></svg>
+<div>
+<h2>Ajouter une envie</h2>
+<p class="manuscrit" style="margin:0;font-size:22px">Plus c’est précis, plus je suis sûre d’éviter les mauvaises surprises…</p>
+</div>
+<form id="form-ajout" class="grille-form" novalidate>
+<label class="fld large">Nom de l’article<input name="nom" maxlength="200" required placeholder="Ex. : body naissance"></label>
+<label class="fld">Prix (€)<input name="prix" inputmode="decimal" placeholder="25"></label>
+<label class="fld">Catégorie<select name="categorie"></select></label>
+<label class="fld large">Lien vers le produit<input name="lien" inputmode="url" placeholder="https://…"></label>
+<label class="fld">Précision<input name="note" maxlength="300" placeholder="Taille, coloris…"></label>
+<button type="submit" class="btn">Ajouter</button>
+<p id="msg-ajout" class="msg plein" aria-live="polite"></p>
+</form>
+</section>
+
+<!-- ============ Les envies ============ -->
+<section style="display:flex;flex-direction:column;gap:20px">
+<div class="envies-tete">
+<div>
+<p class="manuscrit" style="margin:0;font-size:24px">pour le petit explorateur</p>
+<h2>Les envies</h2>
+</div>
+<div class="cadres" aria-hidden="true">
+<div class="cadre" style="transform:rotate(-3deg)"><div><svg width="58" height="58" viewBox="0 0 80 80"><circle cx="40" cy="42" r="30" fill="#C98B4F"/><circle cx="22" cy="22" r="7" fill="#E5BB85"/><circle cx="58" cy="22" r="7" fill="#E5BB85"/><circle cx="40" cy="44" r="20" fill="#E9C48F"/><circle cx="33" cy="41" r="2.4" fill="#3B342D"/><circle cx="47" cy="41" r="2.4" fill="#3B342D"/><ellipse cx="40" cy="52" rx="8" ry="6" fill="#F6E6CC"/><path d="M36.5 48.5h7L40 52z" fill="#7A5235"/><circle cx="28" cy="49" r="3" fill="#E6A58A" opacity=".6"/><circle cx="52" cy="49" r="3" fill="#E6A58A" opacity=".6"/></svg></div></div>
+<div class="cadre" style="transform:rotate(2deg);margin-top:10px"><div><svg width="58" height="58" viewBox="0 0 80 80"><ellipse cx="20" cy="38" rx="12" ry="15" fill="#A7ACA5"/><ellipse cx="60" cy="38" rx="12" ry="15" fill="#A7ACA5"/><ellipse cx="20" cy="38" rx="7" ry="9" fill="#E6C9C0"/><ellipse cx="60" cy="38" rx="7" ry="9" fill="#E6C9C0"/><circle cx="40" cy="38" r="18" fill="#BCC0BA"/><path d="M35 48c0 12 3 18 9 19 4 1 5-2 4-4-5-1-6-6-6-15z" fill="#BCC0BA"/><circle cx="33" cy="36" r="2.2" fill="#3B342D"/><circle cx="47" cy="36" r="2.2" fill="#3B342D"/><circle cx="29" cy="43" r="3" fill="#E6A58A" opacity=".5"/><circle cx="51" cy="43" r="3" fill="#E6A58A" opacity=".5"/></svg></div></div>
+<div class="cadre" style="transform:rotate(-1deg)"><div><svg width="58" height="58" viewBox="0 0 80 80"><rect x="32" y="40" width="16" height="40" rx="6" fill="#E6BC78"/><circle cx="37" cy="54" r="3" fill="#C99254"/><circle cx="44" cy="64" r="3.5" fill="#C99254"/><circle cx="37" cy="72" r="2.5" fill="#C99254"/><rect x="31" y="14" width="3" height="12" fill="#A8733F"/><rect x="46" y="14" width="3" height="12" fill="#A8733F"/><circle cx="32.5" cy="14" r="3" fill="#A8733F"/><circle cx="47.5" cy="14" r="3" fill="#A8733F"/><ellipse cx="24" cy="30" rx="6" ry="3.5" fill="#E6BC78"/><ellipse cx="56" cy="30" rx="6" ry="3.5" fill="#E6BC78"/><ellipse cx="40" cy="34" rx="14" ry="12" fill="#E6BC78"/><ellipse cx="40" cy="42" rx="10" ry="7" fill="#F1D7A8"/><circle cx="34" cy="31" r="2.2" fill="#3B342D"/><circle cx="46" cy="31" r="2.2" fill="#3B342D"/><circle cx="37" cy="42" r="1" fill="#8C6B4A"/><circle cx="43" cy="42" r="1" fill="#8C6B4A"/></svg></div></div>
+</div>
+</div>
+
+<div id="filtres" class="filtres" role="group" aria-label="Filtrer par catégorie"></div>
+<div id="etat-liste" class="vide" aria-live="polite">
+<svg aria-hidden="true" width="60" height="64" viewBox="0 0 60 64"><ellipse cx="30" cy="54" rx="16" ry="10" fill="#E3C59A"/><circle cx="16" cy="14" r="8" fill="#E3C59A"/><circle cx="44" cy="14" r="8" fill="#E3C59A"/><circle cx="30" cy="28" r="18" fill="#E3C59A"/><ellipse cx="30" cy="34" rx="8" ry="6" fill="#F6EAD6"/><ellipse cx="30" cy="31" rx="3" ry="2" fill="#5A4330"/><circle cx="23" cy="25" r="2" fill="#3B342D"/><circle cx="37" cy="25" r="2" fill="#3B342D"/></svg>
+<p id="etat-liste-texte">Chargement de la liste…</p>
+</div>
+<ul id="liste" class="liste"></ul>
+</section>
+
+<!-- ============ Adresse ============ -->
+<section class="sauge">
+<div class="sauge-int">
+<div style="flex:1 1 280px;display:flex;flex-direction:column;gap:10px">
+<div aria-hidden="true" style="display:flex;align-items:flex-end;gap:6px">
+<svg width="40" height="56" viewBox="0 0 60 84"><path d="M30 4C14 4 4 16 4 30c0 14 14 22 20 30h12c6-8 20-16 20-30C56 16 46 4 30 4z" fill="#E3C59A"/><path d="M30 4c-6 0-10 12-10 26 0 14 6 22 8 30h4c2-8 8-16 8-30C40 16 36 4 30 4z" fill="#FBF7EF"/><path d="M24 60l1.5 10M36 60l-1.5 10" stroke="#E3C59A" stroke-width="2"/><rect x="23" y="70" width="14" height="10" rx="2" fill="#B98B5E"/></svg>
+<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#E3C59A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8v13M3 12h18M12 8c-2-4-6-4-6-1.5S10 8 12 8zM12 8c2-4 6-4 6-1.5S14 8 12 8z"/></svg>
+</div>
+<h2>Adresse de livraison</h2>
+<p id="adresse-intro">Vous commandez en ligne ? Faites livrer votre cadeau directement à cette adresse.</p>
+</div>
+<div id="adresse-zone" style="flex:2 1 420px;min-width:0"></div>
+</div>
+</section>
+
+<!-- ============ Pied de page ============ -->
+<footer>
+<div aria-hidden="true" style="display:flex;align-items:flex-end;gap:22px">
+<svg width="54" height="58" viewBox="0 0 60 64"><ellipse cx="30" cy="54" rx="16" ry="10" fill="#D9B48A"/><circle cx="16" cy="14" r="8" fill="#D9B48A"/><circle cx="44" cy="14" r="8" fill="#D9B48A"/><circle cx="16" cy="14" r="4" fill="#EBD3B3"/><circle cx="44" cy="14" r="4" fill="#EBD3B3"/><circle cx="30" cy="28" r="18" fill="#D9B48A"/><ellipse cx="30" cy="34" rx="8" ry="6" fill="#F1E0C6"/><ellipse cx="30" cy="31" rx="3" ry="2" fill="#5A4330"/><circle cx="23" cy="25" r="2" fill="#3B342D"/><circle cx="37" cy="25" r="2" fill="#3B342D"/></svg>
+<svg width="38" height="54" viewBox="0 0 40 56"><rect x="18" y="4" width="4" height="44" fill="#D2AE84"/><ellipse cx="20" cy="44" rx="16" ry="6" fill="#8E9E86"/><ellipse cx="20" cy="34" rx="13" ry="5" fill="#E3C59A"/><ellipse cx="20" cy="25" rx="10" ry="4.5" fill="#C9D3C2"/><ellipse cx="20" cy="17" rx="7" ry="4" fill="#D9A066"/><circle cx="20" cy="9" r="5" fill="#F3EBDD"/><rect x="2" y="48" width="36" height="6" rx="3" fill="#D2AE84"/></svg>
+<svg width="66" height="42" viewBox="0 0 64 40"><path d="M8 28v-8q0-4 4-4h10l6-8h16q4 0 6 4l4 8q4 0 4 4v4z" fill="#A9B5A0"/><path d="M30 10h12q2 0 3 2l3 6H26z" fill="#F3EBDD"/><circle cx="18" cy="30" r="6" fill="#8C6B4A"/><circle cx="46" cy="30" r="6" fill="#8C6B4A"/><circle cx="18" cy="30" r="2" fill="#F3EBDD"/><circle cx="46" cy="30" r="2" fill="#F3EBDD"/></svg>
+</div>
+<div class="pompons" aria-hidden="true"><span style="background:#A9B5A0"></span><span style="background:#E3C59A"></span><span style="background:#C9D3C2"></span><span style="background:#D9A066"></span><span style="background:#8E9E86"></span></div>
+<p class="merci">Merci du fond du cœur — Stevie et Manon</p>
+<button type="button" id="lien-maman" class="lien-discret">Espace maman</button>
+</footer>
+</div>
+</div>
+
+<!-- ============ Connexion maman ============ -->
+<dialog id="connexion" aria-labelledby="titre-connexion">
+<form id="form-connexion" class="dialog-int">
+<h2 id="titre-connexion">Espace maman</h2>
+<p style="margin:0;font-size:14px;color:#5C574F">Connectez-vous pour modifier la liste et l’adresse de livraison.</p>
+<label class="fld">E-mail<input name="email" type="email" autocomplete="username" required></label>
+<label class="fld">Mot de passe<input name="password" type="password" autocomplete="current-password" required></label>
+<p id="msg-connexion" class="msg err" aria-live="polite"></p>
+<div class="dialog-actions">
+<button type="button" class="btn btn-clair" id="annuler-connexion">Annuler</button>
+<button type="submit" class="btn">Se connecter</button>
+</div>
+</form>
+</dialog>
+
+<div id="toast" class="toast" role="status" hidden></div>
+
+<script>
+/* =====================================================================
+   RÉGLAGES — à remplir une seule fois (voir le guide, étape 3)
+   ===================================================================== */
+const SUPABASE_URL = 'https://ljpjrofwujmmrufznlye.supabase.co';
+const SUPABASE_CLE = 'sb_publishable_-RWKeI29zC6Ld9EkSlpsgg_eo5p1s3z';   // clé publique : sans danger dans le navigateur
+/* ===================================================================== */
+
+const CATEGORIES = ['Sommeil', 'Repas', 'Toilette', 'Balade', 'Éveil', 'Vêtements', 'Équipement'];
+const ICONES = {
+  'Sommeil': '<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>',
+  'Repas': '<rect x="8" y="8" width="8" height="13" rx="3"/><path d="M9 8l1-3h4l1 3M8 13h3M8 16h3"/>',
+  'Toilette': '<circle cx="15" cy="8" r="3.5"/><path d="M4 14c0 4 3 6 8 6s8-2 8-6c-3 1-5 0-6-2H6c-1 0-2 1-2 2zM18.5 8H21"/>',
+  'Balade': '<path d="M3 6h4l2 8h10M19 14a7 7 0 0 0-7-7v7"/><circle cx="9" cy="19" r="2"/><circle cx="17" cy="19" r="2"/>',
+  'Éveil': '<path d="M12 2.5v3M4 21h16"/><ellipse cx="12" cy="8" rx="3" ry="1.8"/><ellipse cx="12" cy="12.5" rx="5" ry="2"/><ellipse cx="12" cy="17.5" rx="7" ry="2.2"/>',
+  'Vêtements': '<path d="M8 3L4 6l2 3 2-1v12h8V8l2 1 2-3-4-3c-.5 1.5-2 2.5-4 2.5S8.5 4.5 8 3z"/>',
+  'Équipement': '<circle cx="7" cy="6" r="2.5"/><circle cx="17" cy="6" r="2.5"/><circle cx="12" cy="12" r="6.5"/><circle cx="12" cy="14" r="2"/>'
+};
+const SVG = inner => '<svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">' + inner + '</svg>';
+const COCHE = '<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>';
+const CROIX = '<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+const TEINTES = ['t1', 't2', 't3'];
+const CLE_RESA = 'liste-naissance-mes-reservations';
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const configOk = /^https:\/\//.test(SUPABASE_URL) && !SUPABASE_CLE.startsWith('COLLER');
+const sb = (configOk && window.supabase) ? window.supabase.createClient(SUPABASE_URL, SUPABASE_CLE) : null;
+
+const etat = { envies: [], adresse: null, session: null, vue: 'maman', filtre: 'Tout', modifAdresse: false, chargee: false, erreur: '' };
+
+function mesResa() { try { return JSON.parse(localStorage.getItem(CLE_RESA) || '[]'); } catch (e) { return []; } }
+function enregistrerMesResa(liste) { try { localStorage.setItem(CLE_RESA, JSON.stringify(liste)); } catch (e) {} }
+const estMaman = () => !!etat.session;
+const vueMaman = () => estMaman() && etat.vue === 'maman';
+const apercu = () => estMaman() && etat.vue === 'invite';
+
+function lienSur(texte) {
+  if (!texte) return '';
+  let u = String(texte).trim();
+  if (!u) return '';
+  if (!/^https?:\/\//i.test(u)) u = 'https://' + u;
+  try { const x = new URL(u); return (x.protocol === 'https:' || x.protocol === 'http:') ? x.href : ''; } catch (e) { return ''; }
+}
+function prixFr(p) {
+  if (p === null || p === undefined || p === '') return '';
+  const n = Number(p);
+  if (!isFinite(n)) return '';
+  return n.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR', minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 });
+}
+let minuterieToast;
+function toast(texte) {
+  const t = $('toast');
+  t.textContent = texte;
+  t.hidden = false;
+  clearTimeout(minuterieToast);
+  minuterieToast = setTimeout(() => { t.hidden = true; }, 4000);
+}
+
+/* ---------------- Chargement ---------------- */
+async function charger() {
+  if (!sb) {
+    etat.chargee = true;
+    etat.erreur = configOk ? 'La liste n’a pas pu être chargée (connexion impossible). Vérifiez votre connexion internet.' : '';
+    render();
+    return;
+  }
+  const [envies, adresse] = await Promise.all([
+    sb.from('envies').select('*').order('cree_le', { ascending: true }),
+    sb.from('adresse').select('*').eq('id', 1).maybeSingle()
+  ]);
+  etat.chargee = true;
+  if (envies.error) {
+    console.error(envies.error);
+    etat.erreur = 'La liste n’a pas pu être chargée. Réessayez dans un instant.';
+  } else {
+    etat.erreur = '';
+    etat.envies = envies.data || [];
+  }
+  if (!adresse.error) etat.adresse = adresse.data;
+  render();
+}
+
+/* ---------------- Affichage ---------------- */
+function render() {
+  $('bandeau-config').hidden = configOk;
+
+  // Onglets et mode
+  $('onglets').hidden = !estMaman();
+  document.querySelectorAll('.onglet').forEach(b => b.classList.toggle('on', b.dataset.vue === etat.vue));
+  $('bloc-ajout').hidden = !vueMaman();
+  $('lien-maman').textContent = estMaman() ? 'Se déconnecter' : 'Espace maman';
+
+  // Compteur
+  $('nb-total').textContent = etat.envies.length;
+  $('nb-offertes').textContent = etat.envies.filter(w => w.reserve).length;
+
+  // Filtres
+  $('filtres').innerHTML = ['Tout'].concat(CATEGORIES).map(c =>
+    '<button type="button" class="chip' + (c === etat.filtre ? ' on' : '') + '" data-filtre="' + esc(c) + '" aria-pressed="' + (c === etat.filtre) + '">' + esc(c) + '</button>'
+  ).join('');
+
+  // Liste
+  const items = etat.envies.filter(w => etat.filtre === 'Tout' || w.categorie === etat.filtre);
+  const zoneEtat = $('etat-liste');
+  if (!etat.chargee) {
+    zoneEtat.hidden = false; $('etat-liste-texte').textContent = 'Chargement de la liste…';
+  } else if (etat.erreur) {
+    zoneEtat.hidden = false; $('etat-liste-texte').textContent = etat.erreur;
+  } else if (items.length === 0) {
+    zoneEtat.hidden = false;
+    $('etat-liste-texte').textContent = etat.envies.length === 0
+      ? (vueMaman() ? 'Aucune envie pour l’instant. Ajoutez la première juste au-dessus.' : 'La liste arrive très bientôt !')
+      : 'Rien dans cette catégorie pour l’instant.';
+  } else {
+    zoneEtat.hidden = true;
+  }
+  const mine = mesResa();
+  $('liste').innerHTML = items.map((w, i) => {
+    const lien = lienSur(w.lien);
+    const prix = prixFr(w.prix);
+    let actions = '';
+    if (vueMaman()) {
+      if (w.reserve) actions += '<button type="button" class="btn-texte" data-action="liberer" data-id="' + w.id + '">Remettre disponible</button>';
+      actions += '<button type="button" class="rond" data-action="supprimer" data-id="' + w.id + '" aria-label="Supprimer « ' + esc(w.nom) + ' »">' + CROIX + '</button>';
+    } else if (!w.reserve) {
+      actions = '<button type="button" class="btn" data-action="reserver" data-id="' + w.id + '"' + (apercu() ? ' disabled title="Aperçu : bouton désactivé pour vous"' : '') + '>Je l’offre</button>';
+    } else if (mine.includes(w.id) && !apercu()) {
+      actions = '<button type="button" class="btn btn-clair" data-action="annuler" data-id="' + w.id + '">Annuler ma réservation</button>';
+    }
+    return '<li class="carte ' + TEINTES[i % 3] + (w.reserve ? ' is-res' : '') + '">' +
+      '<div class="carte-haut"><div class="cat"><span class="ico">' + SVG(ICONES[w.categorie] || ICONES['Équipement']) + '</span><span>' + esc(w.categorie) + '</span></div>' +
+      (w.reserve ? '<span class="badge">' + COCHE + 'Offert</span>' : '') + '</div>' +
+      '<div class="carte-corps"><span class="nom">' + esc(w.nom) + '</span>' +
+      (w.note ? '<span class="note">' + esc(w.note) + '</span>' : '') +
+      (lien ? '<a href="' + esc(lien) + '" target="_blank" rel="noopener noreferrer">Voir le produit</a>' : '') + '</div>' +
+      '<div class="carte-bas">' + (prix ? '<span class="prix">' + prix + '</span>' : '<span></span>') + '<span style="display:flex;align-items:center;gap:6px">' + actions + '</span></div>' +
+      '</li>';
+  }).join('');
+
+  renderAdresse();
+}
+
+function lignesAdresse(a) {
+  if (!a) return [];
+  return [a.destinataire, a.rue, a.complement, ((a.code_postal || '') + ' ' + (a.ville || '')).trim(), a.pays].filter(x => x && String(x).trim());
+}
+
+function renderAdresse() {
+  const zone = $('adresse-zone');
+  const a = etat.adresse;
+  const lignes = lignesAdresse(a);
+  const complete = !!(a && a.rue && a.ville);
+  if (vueMaman()) {
+    $('adresse-intro').textContent = 'Pour les cadeaux commandés en ligne et envoyés directement chez vous. Vos invités la verront dès qu’elle est enregistrée.';
+    if (!complete || etat.modifAdresse) {
+      const v = k => esc(a && a[k] != null ? a[k] : (k === 'pays' ? 'France' : ''));
+      zone.innerHTML =
+        '<form id="form-adresse" class="grille-form" style="grid-template-columns:repeat(auto-fit,minmax(160px,1fr))">' +
+        '<label class="fld plein">Nom du destinataire<input name="destinataire" autocomplete="name" value="' + v('destinataire') + '" placeholder="Prénom Nom"></label>' +
+        '<label class="fld plein">Adresse<input name="rue" autocomplete="address-line1" value="' + v('rue') + '" placeholder="N° et nom de rue" required></label>' +
+        '<label class="fld plein">Complément<input name="complement" autocomplete="address-line2" value="' + v('complement') + '" placeholder="Bâtiment, étage, digicode…"></label>' +
+        '<label class="fld">Code postal<input name="code_postal" autocomplete="postal-code" inputmode="numeric" value="' + v('code_postal') + '"></label>' +
+        '<label class="fld">Ville<input name="ville" autocomplete="address-level2" value="' + v('ville') + '" required></label>' +
+        '<label class="fld">Pays<input name="pays" autocomplete="country-name" value="' + v('pays') + '"></label>' +
+        '<div class="plein" style="display:flex;justify-content:flex-end;align-items:center;gap:12px;flex-wrap:wrap">' +
+        '<p id="msg-adresse" class="msg" aria-live="polite"></p>' +
+        (complete ? '<button type="button" class="btn-contour" data-action="annuler-adresse">Annuler</button>' : '') +
+        '<button type="submit" class="btn-creme">Enregistrer l’adresse</button></div></form>';
+    } else {
+      zone.innerHTML = '<div class="ligne-adresse"><address>' + lignes.map(l => '<div>' + esc(l) + '</div>').join('') + '</address>' +
+        '<button type="button" class="btn-contour" data-action="modifier-adresse">Modifier</button></div>';
+    }
+  } else {
+    $('adresse-intro').textContent = 'Vous commandez en ligne ? Faites livrer votre cadeau directement à cette adresse.';
+    zone.innerHTML = complete
+      ? '<div class="ligne-adresse"><address>' + lignes.map(l => '<div>' + esc(l) + '</div>').join('') + '</address>' +
+        '<button type="button" class="btn-creme" data-action="copier-adresse">Copier l’adresse</button></div>'
+      : '<p>L’adresse de livraison sera bientôt ajoutée.</p>';
+  }
+}
+
+/* ---------------- Actions ---------------- */
+document.addEventListener('click', async ev => {
+  const filtre = ev.target.closest('[data-filtre]');
+  if (filtre) { etat.filtre = filtre.dataset.filtre; render(); return; }
+
+  const onglet = ev.target.closest('.onglet');
+  if (onglet) { etat.vue = onglet.dataset.vue; etat.modifAdresse = false; render(); return; }
+
+  const b = ev.target.closest('[data-action]');
+  if (!b || b.disabled) return;
+  const action = b.dataset.action;
+  const id = Number(b.dataset.id);
+  const envie = etat.envies.find(w => w.id === id);
+
+  if (action === 'modifier-adresse') { etat.modifAdresse = true; renderAdresse(); return; }
+  if (action === 'annuler-adresse') { etat.modifAdresse = false; renderAdresse(); return; }
+  if (action === 'copier-adresse') {
+    const texte = lignesAdresse(etat.adresse).join('\n');
+    try { await navigator.clipboard.writeText(texte); toast('Adresse copiée ✓'); }
+    catch (e) { toast('Copie impossible : sélectionnez l’adresse à la main.'); }
+    return;
+  }
+  if (!sb) return;
+
+  if (action === 'reserver') {
+    if (!confirm('Vous offrez « ' + (envie ? envie.nom : 'ce cadeau') + ' » ? Il sera marqué comme offert pour les autres invités.')) return;
+    b.disabled = true;
+    const { data, error } = await sb.rpc('reserver', { envie_id: id });
+    if (error) { console.error(error); toast('Oups, la réservation n’a pas fonctionné. Réessayez.'); }
+    else if (data === false) toast('Trop tard, quelqu’un vient de l’offrir !');
+    else { enregistrerMesResa(mesResa().concat(id)); toast('Merci ! Ce cadeau est réservé pour vous.'); }
+    await charger();
+    return;
+  }
+  if (action === 'annuler') {
+    if (!confirm('Annuler votre réservation ? Le cadeau redeviendra disponible.')) return;
+    b.disabled = true;
+    const { error } = await sb.rpc('annuler_reservation', { envie_id: id });
+    if (error) { console.error(error); toast('L’annulation n’a pas fonctionné. Réessayez.'); }
+    else { enregistrerMesResa(mesResa().filter(x => x !== id)); toast('Réservation annulée.'); }
+    await charger();
+    return;
+  }
+  if (action === 'supprimer' && estMaman()) {
+    if (!confirm('Supprimer « ' + (envie ? envie.nom : 'cette envie') + ' » de la liste ?')) return;
+    b.disabled = true;
+    const { error } = await sb.from('envies').delete().eq('id', id);
+    if (error) { console.error(error); toast('La suppression n’a pas fonctionné.'); }
+    await charger();
+    return;
+  }
+  if (action === 'liberer' && estMaman()) {
+    b.disabled = true;
+    const { error } = await sb.from('envies').update({ reserve: false, reserve_le: null }).eq('id', id);
+    if (error) { console.error(error); toast('La modification n’a pas fonctionné.'); }
+    await charger();
+  }
+});
+
+$('form-ajout').addEventListener('submit', async ev => {
+  ev.preventDefault();
+  const f = new FormData(ev.target);
+  const msg = $('msg-ajout');
+  const nom = String(f.get('nom') || '').trim();
+  msg.className = 'msg plein';
+  if (!nom) { msg.textContent = 'Indiquez au moins le nom de l’article.'; msg.classList.add('err'); return; }
+  const prixTexte = String(f.get('prix') || '').replace(',', '.').replace(/[^\d.]/g, '');
+  const lienTexte = String(f.get('lien') || '').trim();
+  const lien = lienSur(lienTexte);
+  if (lienTexte && !lien) { msg.textContent = 'Le lien ne semble pas valide.'; msg.classList.add('err'); return; }
+  const ligne = {
+    nom: nom,
+    prix: prixTexte && isFinite(Number(prixTexte)) ? Number(prixTexte) : null,
+    lien: lien || null,
+    categorie: f.get('categorie'),
+    note: String(f.get('note') || '').trim() || null
+  };
+  const bouton = ev.target.querySelector('button[type="submit"]');
+  bouton.disabled = true;
+  const { error } = await sb.from('envies').insert(ligne);
+  bouton.disabled = false;
+  if (error) { console.error(error); msg.textContent = 'L’envie n’a pas pu être ajoutée. Êtes-vous toujours connectée ?'; msg.classList.add('err'); return; }
+  ['nom', 'prix', 'lien', 'note'].forEach(k => { ev.target.elements[k].value = ''; });
+  msg.textContent = '« ' + nom + ' » a été ajouté à la liste.';
+  ev.target.elements.nom.focus();
+  await charger();
+});
+
+document.addEventListener('submit', async ev => {
+  if (ev.target.id !== 'form-adresse') return;
+  ev.preventDefault();
+  const f = new FormData(ev.target);
+  const msg = $('msg-adresse');
+  const ligne = { id: 1, maj_le: new Date().toISOString() };
+  ['destinataire', 'rue', 'complement', 'code_postal', 'ville', 'pays'].forEach(k => { ligne[k] = String(f.get(k) || '').trim() || null; });
+  if (!ligne.rue || !ligne.ville) { msg.textContent = 'L’adresse et la ville sont nécessaires.'; return; }
+  const bouton = ev.target.querySelector('button[type="submit"]');
+  bouton.disabled = true;
+  const { error } = await sb.from('adresse').upsert(ligne);
+  bouton.disabled = false;
+  if (error) { console.error(error); msg.textContent = 'L’adresse n’a pas pu être enregistrée.'; return; }
+  etat.modifAdresse = false;
+  toast('Adresse enregistrée ✓');
+  await charger();
+});
+
+/* ---------------- Connexion maman ---------------- */
+const dialogue = $('connexion');
+$('lien-maman').addEventListener('click', async () => {
+  if (!sb) { toast('Le site n’est pas encore relié à sa base de données.'); return; }
+  if (estMaman()) { await sb.auth.signOut(); toast('Vous êtes déconnectée.'); return; }
+  $('msg-connexion').textContent = '';
+  dialogue.showModal();
+});
+$('annuler-connexion').addEventListener('click', () => dialogue.close());
+$('form-connexion').addEventListener('submit', async ev => {
+  ev.preventDefault();
+  const f = new FormData(ev.target);
+  const bouton = ev.target.querySelector('button[type="submit"]');
+  bouton.disabled = true;
+  const { error } = await sb.auth.signInWithPassword({ email: String(f.get('email')).trim(), password: String(f.get('password')) });
+  bouton.disabled = false;
+  if (error) { $('msg-connexion').textContent = 'E-mail ou mot de passe incorrect.'; return; }
+  ev.target.reset();
+  dialogue.close();
+  toast('Bienvenue Manon !');
+});
+
+/* ---------------- Démarrage ---------------- */
+$('form-ajout').elements.categorie.innerHTML = CATEGORIES.map(c => '<option' + (c === 'Équipement' ? ' selected' : '') + '>' + esc(c) + '</option>').join('');
+render();
+if (sb) {
+  sb.auth.getSession().then(({ data }) => {
+    etat.session = data.session;
+    render();
+    if (!data.session && new URLSearchParams(location.search).has('maman')) dialogue.showModal();
+  });
+  sb.auth.onAuthStateChange((_evenement, session) => {
+    const avant = !!etat.session;
+    etat.session = session;
+    if (!!session !== avant) { etat.vue = 'maman'; etat.modifAdresse = false; }
+    render();
+  });
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') charger(); });
+}
+charger();
+</script>
+</body>
+</html>
